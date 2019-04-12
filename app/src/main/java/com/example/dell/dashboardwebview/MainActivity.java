@@ -50,50 +50,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         webView = (WebView) findViewById(R.id.webview);
-        webView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-
-                if(url.contains("/printReport")) {
-                    //webView.loadUrl("http://mozilla.github.io/pdf.js/web/viewer.html?file=" + url + "#zoom=page-width");
-
-                    /*webView.setDownloadListener(new DownloadListener() {
-                        @Override
-                        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
-                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-
-                            request.setMimeType(mimeType);
-
-                            //------------------------COOKIE!!------------------------
-                            String cookies = CookieManager.getInstance().getCookie(url);
-                            request.addRequestHeader("cookie", cookies);
-                            //------------------------COOKIE!!------------------------
-
-                            request.addRequestHeader("User-Agent", userAgent);
-                            request.setDescription("Downloading file...");
-                            request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType));
-                            request.allowScanningByMediaScanner();
-                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimeType));
-                            DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                            dm.enqueue(request);
-
-                            Toast.makeText(getApplicationContext(), "Downloading File", Toast.LENGTH_LONG).show();
-                        }
-                    });*/
-                } else {
-                    webView.loadUrl(url);
-                }
-
-                return true;
-            }
-        });
-
         webView.loadUrl("http://www.brasilnota.com.br/arquivo");
         WebSettings settings = webView.getSettings();
 
         settings.setSupportZoom(false);
+        settings.setSupportMultipleWindows(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccessFromFileURLs(true);
@@ -121,7 +83,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+
+                if(url.contains("/print")) {
+                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+                    webView.loadUrl("http://mozilla.github.io/pdf.js/web/viewer.html?file=" + url + "#zoom=page-width");
+                } else {
+                    webView.loadUrl(url);
+                }
+
+                return true;
+            }
+        });*/
+
+        webView.setWebViewClient(new WebViewClient());
+
         webView.setWebChromeClient(new WebChromeClient() {
+
+            /*@Override
+            public boolean onCreateWindow(WebView view, boolean dialog, boolean userGesture, android.os.Message resultMsg) {
+                WebView.HitTestResult result = view.getHitTestResult();
+                String data = result.getExtra();
+                Context context = view.getContext();
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
+                context.startActivity(browserIntent);
+                return false;
+            }*/
 
             protected void openFileChooser(ValueCallback uploadMsg, String acceptType) {
                 mUploadMessage = uploadMsg;
