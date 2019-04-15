@@ -75,43 +75,9 @@ public class MainActivity extends AppCompatActivity {
             webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
-        webView.setDownloadListener(new DownloadListener() {
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
-
-        /*webView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-
-                if(url.contains("/print")) {
-                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
-                    webView.loadUrl("http://mozilla.github.io/pdf.js/web/viewer.html?file=" + url + "#zoom=page-width");
-                } else {
-                    webView.loadUrl(url);
-                }
-
-                return true;
-            }
-        });*/
-
         webView.setWebViewClient(new WebViewClient());
 
         webView.setWebChromeClient(new WebChromeClient() {
-
-            /*@Override
-            public boolean onCreateWindow(WebView view, boolean dialog, boolean userGesture, android.os.Message resultMsg) {
-                WebView.HitTestResult result = view.getHitTestResult();
-                String data = result.getExtra();
-                Context context = view.getContext();
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
-                context.startActivity(browserIntent);
-                return false;
-            }*/
 
             protected void openFileChooser(ValueCallback uploadMsg, String acceptType) {
                 mUploadMessage = uploadMsg;
